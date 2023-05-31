@@ -1,6 +1,5 @@
 using Basket.API.GrpcServices;
 using Basket.API.Repositories;
-using Microsoft.Extensions.Caching.Distributed;
 using static Discount.Grpc.Protos.DiscountProtoService;
 
 var builder = WebApplication.CreateBuilder(args);
