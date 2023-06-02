@@ -31,11 +31,15 @@ namespace Basket.API.Controllers
         [ProducesResponseType(typeof(ShoppingCart), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCart>> UpdateBasket([FromBody]ShoppingCart basket)
         {
+            decimal totalPrice = 0;
             foreach (var item in basket.Items)
             {
                var discount = await _discountGrpcService.GetDiscount(item.ProductName);
-                item.Price -= discount.Amount; 
+                item.Price -= discount.Amount;
+                totalPrice += item.Price;
+
             }
+            basket.TotalPrice = totalPrice;
             return Ok(await _basketRepository.UpdateBasket(basket));
         }
 
