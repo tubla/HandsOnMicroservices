@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Order.Domain.Common
+﻿namespace Order.Domain.Common
 {
     public abstract class ValueObject
     {
