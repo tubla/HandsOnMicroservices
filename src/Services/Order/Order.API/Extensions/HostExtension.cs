@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
 namespace Order.API.Extensions
 {
@@ -11,7 +10,7 @@ namespace Order.API.Extensions
         {
             int retryForAvailability = retry.Value;
             var logger = serviceProvider.GetRequiredService<ILogger<TContext>>();
-            var context = serviceProvider.GetService<TContext>();
+            var context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<TContext>();
 
             try
             {
