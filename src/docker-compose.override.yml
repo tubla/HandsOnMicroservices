@@ -38,6 +38,9 @@ services:
 
   rabbitmq:
     container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     restart: always
     ports:
       - "5672:5672"
