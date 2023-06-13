@@ -1,8 +1,13 @@
+using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+
+// Configure environment specific json file
+builder.Host.ConfigureAppConfiguration((hostContext, config) => {
+    config.AddJsonFile($"ocelot.{hostContext.HostingEnvironment.EnvironmentName}.json",true,true);
+});
 
 // Configure logging to view the logs from OCELOT APIGATEWAY service
 builder.Host.ConfigureLogging(logging => {
@@ -11,9 +16,12 @@ builder.Host.ConfigureLogging(logging => {
     logging.AddDebug();
 });
 
-// Add OCELOT APIGATEWAY service
-builder.Services.AddOcelot();
+// Add OCELOT APIGATEWAY service and cache manager
+builder.Services.AddOcelot()
+                .AddCacheManager(settings => settings.WithDictionaryHandle());
 
+
+var app = builder.Build();
 app.MapGet("/", () => "Hello World!");
 
 // Use OCELOT APIGATEWAY service
